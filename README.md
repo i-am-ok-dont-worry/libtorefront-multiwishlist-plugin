@@ -1,19 +1,67 @@
-# NAMING CONVENTIONS
-* `name` property in package.json should be changed to a module name
-* `description` property in package.json should describe plugin feature
+## Multiwishlist plugin
+The wishlist extension provides functionality for listing and maintaining 
+items a customer would like to have, for example products intended for 
+buying or desired as gifts.
 
-## Write plugin
-Entry point for plugin should be `index.ts` file. LSF plugin is a default void function 
-that accepts initialized Libstorefront instance.
+## Usage
+To use plugin add dependency to the LSF lib:
+```javascript
+const LSF = new LibStorefront({
+    plugins: [
+        MultiwishlistPlugin
+    ]
+});
+```
 
-Plugin has access to all lsf functionality including IOC container. Dependencies
-can be rebound according to plugin needs.
+and get `MultiwishlistService` registered by lib:
+```javascript
+LSF.get(MultiwishlistService)
+```
+
+## Model
+Plugin adds new type `Multiwishlist`:
+```javascript
+interface Multiwishlist {
+    wishlist_id?: number,
+    customer_id?: number,
+    shared?: number,
+    sharing_code?: number,
+    updated_at?: string,
+    name: string,
+    type?: number
+}
+```
+
+## Service
+Plugin registers service `MultiwishlistService` which serves as a plugin entry point.
+Service exposes methods:
+* `createMultiwishlist (wishlist: Multiwishlist, setAsCurrent?: boolean): Promise<Multiwishlist>` - creates new wishlist on behalf of currently logged user
+* `getMultiwishlists ({ pageSize, currentPage, sortBy, sortDir }: { pageSize?: number, currentPage?: number, sortBy?: string, sortDir?: 'asc'|'desc' } = {}): Promise<Multiwishlist[]>` - returns filterable list of wishlists
+* `getSingleMultiwishlist (wishlistId: string, setAsCurrent?: boolean): Promise<Multiwishlist>` - returns details of single wishlist
+* `updateMultiwishlist (wishlistId: string, wishlist: Multiwishlist): Promise<Multiwishlist>` - updates wishlist
+* `deleteMultiwishlist (wishlistId: string): Promise<void>` - removes wishlist
+
+## Redux store
+Plugin adds new state branch called `multiwishlist` to the original Libstorefront Redux store.
+Default multiwishlist state:
+```javascript
+{
+    list: {
+        start: number,
+        perPage: number,
+        total: number,
+        items:  Multiwishlist[]
+    },
+    current: Multiwishlist
+}
+```
 
 ## Build plugin
 Run `npm run build` to build plugin.
 Output can be found in `/dist` catalog.
 
 ## Test plugin
-Plugin must be tested in isolation. Unit tests can be performed via jest framework
-in `/tests/test.ts` file.
-Template includes by default mocked LocalStorage object.
+Plugin can be tested in isolation. To run plugin integration test:
+```shell script
+npm run test:integration
+```
