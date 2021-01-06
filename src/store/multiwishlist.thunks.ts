@@ -59,7 +59,7 @@ export namespace MultiwishlistThunks {
     export const createWishlist = ({ wishlist, setAsCurrent = false }) => async (dispatch, getState) => {
         const userState = IOCContainer.get(AbstractStore).getState().user;
         if (!userState.current || !userState.token) { throw new Error('Cannot create multiwishlist for unauthorized user'); }
-        const response = await IOCContainer.get(MultiwishlistDao).createMultiwishlist(wishlist, userState.token);
+        const response = await IOCContainer.get(MultiwishlistDao).createMultiwishlist({ ...wishlist, customer_id: userState.current.id }, userState.token);
 
         if (response && response.code === HttpStatus.OK && setAsCurrent) {
             await dispatch(MultiwishlistActions.setCurrent(response.result));
