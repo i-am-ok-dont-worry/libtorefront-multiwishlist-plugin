@@ -37,7 +37,7 @@ interface Multiwishlist {
 Plugin registers the [MultiwishlistService](https://gitlab.grupakmk.pl/internal/frontend/api/addons/libstorefront-addons/libstorefront-multiwishlist-plugin/-/blob/master/src/service/index.ts) which serves as a plugin entry point.
 Service exposes methods:
 * `createMultiwishlist (wishlist: Multiwishlist, setAsCurrent?: boolean): Promise<Multiwishlist>` - creates a new wishlist on behalf of currently logged user
-* `getMultiwishlists ({ pageSize, currentPage, sortBy, sortDir }: { pageSize?: number, currentPage?: number, sortBy?: string, sortDir?: 'asc'|'desc' } = {}): Promise<Multiwishlist[]>` - returns list of wishlists
+* `getMultiwishlists (): Promise<Multiwishlist[]>` - returns list of customer wishlists
 * `getSingleMultiwishlist (wishlistId: string, setAsCurrent?: boolean): Promise<Multiwishlist>` - returns details of single wishlist
 * `deleteMultiwishlist (wishlistId: string): Promise<void>` - removes a wishlist
 * `addProductToWishlist (product: Product, wishlist: Multiwishlist): Promise<void>` - adds product to a wishlist
