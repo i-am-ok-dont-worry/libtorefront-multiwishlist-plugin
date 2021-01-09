@@ -1,5 +1,5 @@
-import { Multiwishlist } from '../types';
-import { AbstractStore, LibstorefrontInnerState } from '@grupakmk/libstorefront';
+import {Multiwishlist, MultiwishlistItem} from '../types';
+import {AbstractStore, LibstorefrontInnerState, Product} from '@grupakmk/libstorefront';
 import { injectable, inject } from 'inversify';
 import { MultiwishlistThunks } from '../store/multiwishlist.thunks';
 
@@ -23,8 +23,8 @@ export class MultiwishlistService {
      * @param {string} sortBy - Field by which sort results
      * @param {asc|desc} sortDir - Sorting direction
      */
-    public getMultiwishlists ({ pageSize, currentPage, sortBy, sortDir }: { pageSize?: number, currentPage?: number, sortBy?: string, sortDir?: 'asc'|'desc' } = {}): Promise<Multiwishlist[]> {
-        return this.store.dispatch(MultiwishlistThunks.getMultiwishlists({ pageSize, currentPage, sortBy, sortDir }));
+    public getMultiwishlists (withItems?: boolean): Promise<Multiwishlist[]> {
+        return this.store.dispatch(MultiwishlistThunks.getMultiwishlists(withItems));
     }
 
     /**
@@ -37,19 +37,29 @@ export class MultiwishlistService {
     }
 
     /**
-     * Updates wishlist
-     * @param {string} wishlistId
-     */
-    public updateMultiwishlist (wishlistId: string, wishlist: Multiwishlist): Promise<Multiwishlist> {
-        return Promise.reject('Method not implemented');
-    }
-
-    /**
      * Removes existing wishlist and does state cleanup
      * @param {string} wishlistId
      */
     public deleteMultiwishlist (wishlistId: string): Promise<void> {
         return this.store.dispatch(MultiwishlistThunks.deleteWishlist(wishlistId));
+    }
+
+    /**
+     * Adds product to a wishlist
+     * @param {Product} product
+     * @returns {Multiwishlist} Mutated wishlist
+     */
+    public addProductToWishlist (product: Product, wishlist: Multiwishlist): Promise<void> {
+        return this.store.dispatch(MultiwishlistThunks.addProductToWishlist(product, wishlist));
+    }
+
+    /**
+     * Removes product from a wishlist
+     * @param {MultiwishlistItem} item
+     * @returns {Promise<void>}
+     */
+    public removeProductFromWishlist (item: MultiwishlistItem): Promise<void> {
+        return this.store.dispatch(MultiwishlistThunks.removeProductFromWishlist(item));
     }
 
     public constructor(@inject(AbstractStore) private store: AbstractStore<LibstorefrontInnerState>) {}

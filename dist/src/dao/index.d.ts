@@ -2,16 +2,11 @@ import { Task, TaskQueue } from '@grupakmk/libstorefront';
 import { Multiwishlist } from '../types';
 export declare class MultiwishlistDao {
     private taskQueue;
-    getMultiwishlists({ customerId, pageSize, currentPage, sortBy, sortDir }: {
-        customerId: any;
-        pageSize: any;
-        currentPage: any;
-        sortBy: any;
-        sortDir: any;
-    }, token: string): Promise<Task>;
-    getMultiwishlist(wishlistId: string, token: string): Promise<Task>;
-    createMultiwishlist(wishlist: Multiwishlist, token: string): Promise<Task>;
-    updateMultiwishlist(wishlistId: string, wishlist: Multiwishlist, token: string): Promise<Task>;
-    deleteMultiwishlist(wishlistId: string, token: string): Promise<Task>;
+    getMultiwishlists(customerId: any, withItems: boolean, storeCode: any, token: string): Promise<Task>;
+    getMultiwishlist(wishlistId: any, storeCode: string, token: string): Promise<Task>;
+    createMultiwishlist(wishlist: Multiwishlist, storeCode: string, token: string): Promise<Task>;
+    deleteMultiwishlist(wishlistId: string, storeCode: string, token: string): Promise<Task>;
+    addProductToWishlist(wishlistId: string, productId: string | number, storeCode: string, token: string): Promise<Task>;
+    removeProductFromWishlist(itemId: string, storeCode: string, token: string): Promise<Task>;
     constructor(taskQueue: TaskQueue);
 }

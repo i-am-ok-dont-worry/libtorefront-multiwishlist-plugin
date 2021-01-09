@@ -4,7 +4,7 @@ items a customer would like to have, for example products intended for
 buying or desired as gifts.
 
 ## Usage
-To use plugin add dependency to the LSF lib:
+To use plugin add a dependency to the LSF lib:
 ```javascript
 const LSF = new LibStorefront({
     plugins: [
@@ -28,30 +28,27 @@ interface Multiwishlist {
     sharing_code?: number,
     updated_at?: string,
     name: string,
-    type?: number
+    type?: number,
+    items?: MultiwishlistItem[]
 }
 ```
 
 ## Service
-Plugin registers service `MultiwishlistService` which serves as a plugin entry point.
+Plugin registers the [MultiwishlistService](https://gitlab.grupakmk.pl/internal/frontend/api/addons/libstorefront-addons/libstorefront-multiwishlist-plugin/-/blob/master/src/service/index.ts) which serves as a plugin entry point.
 Service exposes methods:
-* `createMultiwishlist (wishlist: Multiwishlist, setAsCurrent?: boolean): Promise<Multiwishlist>` - creates new wishlist on behalf of currently logged user
-* `getMultiwishlists ({ pageSize, currentPage, sortBy, sortDir }: { pageSize?: number, currentPage?: number, sortBy?: string, sortDir?: 'asc'|'desc' } = {}): Promise<Multiwishlist[]>` - returns filterable list of wishlists
+* `createMultiwishlist (wishlist: Multiwishlist, setAsCurrent?: boolean): Promise<Multiwishlist>` - creates a new wishlist on behalf of currently logged user
+* `getMultiwishlists ({ pageSize, currentPage, sortBy, sortDir }: { pageSize?: number, currentPage?: number, sortBy?: string, sortDir?: 'asc'|'desc' } = {}): Promise<Multiwishlist[]>` - returns list of wishlists
 * `getSingleMultiwishlist (wishlistId: string, setAsCurrent?: boolean): Promise<Multiwishlist>` - returns details of single wishlist
-* `updateMultiwishlist (wishlistId: string, wishlist: Multiwishlist): Promise<Multiwishlist>` - updates wishlist
-* `deleteMultiwishlist (wishlistId: string): Promise<void>` - removes wishlist
+* `deleteMultiwishlist (wishlistId: string): Promise<void>` - removes a wishlist
+* `addProductToWishlist (product: Product, wishlist: Multiwishlist): Promise<void>` - adds product to a wishlist
+* `removeProductFromWishlist (item: MultiwishlistItem): Promise<void>` - removes product from a wishlist
 
 ## Redux store
 Plugin adds new state branch called `multiwishlist` to the original Libstorefront Redux store.
 Default multiwishlist state:
 ```javascript
 {
-    list: {
-        start: number,
-        perPage: number,
-        total: number,
-        items:  Multiwishlist[]
-    },
+    items:  Multiwishlist[]
     current: Multiwishlist
 }
 ```

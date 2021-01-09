@@ -6,22 +6,41 @@ import { MultiwishlistActions } from './multiwishlist.actions';
 export const multiwishlistReducer: Reducer<MultiwishlistModuleState, AnyAction> = (state: MultiwishlistModuleState, action) => {
     switch (action.type) {
         case MultiwishlistActions.SET_MULTIWISHLIST: {
-            const { items, start, perPage, total } = action.payload;
-            return { ...state, list: { ...state.list, items, perPage, start, total } };
+            const { items } = action.payload;
+            return { ...state, items };
         }
         case MultiwishlistActions.SET_CURRENT: {
             return { ...state, current: action.payload };
         }
         case MultiwishlistActions.DELETE_MULTIWISHLIST: {
-            const lists = state.list.items.filter(({ wishlist_id}) => wishlist_id !== action.payload);
+            const lists = state.items.filter(({ wishlist_id }) => wishlist_id !== action.payload);
             const isCurrent = state.current.wishlist_id === action.payload;
             return {
                 ...state,
-                list: {
-                    ...state.list,
-                    items: lists
-                },
+                items: lists,
                 current: isCurrent ? null : state.current
+            };
+        }
+        case MultiwishlistActions.ADD_PRODUCT: {
+            const { product, wishlist } = action.payload;
+            if (!wishlist.items) { wishlist.items = []; }
+            wishlist.items.push({ ...product, product_id: product.id });
+
+            return {
+                ...state,
+                current: (state.current && wishlist.wishlist_id === state.current.wishlist_id) ? wishlist : state.current,
+                items: state.items.map(w => w.wishlist_id === wishlist.wishlist_id ? wishlist : w)
+            };
+        }
+        case MultiwishlistActions.REMOVE_PRODUCT: {
+            const product = action.payload;
+            const wishlists = state.items.map(w => w.items.filter(({ item_id }) => item_id !== product.item_id));
+            const current = state.current ? state.current.items.filter(({ item_id }) => item_id !== product.item_id) : null;
+
+            return {
+                ...state,
+                items: wishlists,
+                current
             };
         }
         default: return state || MultiwishlistDefaultState;

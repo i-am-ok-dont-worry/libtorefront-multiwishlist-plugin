@@ -1,18 +1,12 @@
-import { Multiwishlist } from '../types';
+import { Multiwishlist, MultiwishlistItem } from '../types';
 export declare namespace MultiwishlistActions {
     const SET_MULTIWISHLIST: string;
     const setMultiwishlist: (wishlists: {
         items: Multiwishlist[];
-        total: number;
-        start: number;
-        perPage: number;
     }) => {
         type: string;
         payload: {
             items: Multiwishlist[];
-            total: number;
-            start: number;
-            perPage: number;
         };
     };
     const SET_CURRENT: string;
@@ -24,5 +18,18 @@ export declare namespace MultiwishlistActions {
     const deleteMultiwishlist: (wishlistId: number) => {
         type: string;
         payload: number;
+    };
+    const ADD_PRODUCT: string;
+    const addProductToWishlist: (product: MultiwishlistItem, wishlist: Multiwishlist) => {
+        type: string;
+        payload: {
+            product: MultiwishlistItem;
+            wishlist: Multiwishlist;
+        };
+    };
+    const REMOVE_PRODUCT: string;
+    const removeProductFromWishlist: (product: MultiwishlistItem) => {
+        type: string;
+        payload: MultiwishlistItem;
     };
 }

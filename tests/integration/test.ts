@@ -18,6 +18,8 @@ const LSF = new LibStorefront({
         name: 'nowa',
         type: 0
     };
-    await service.deleteMultiwishlist(25);
+    // const wishlists = await service.getSingleMultiwishlist(6, true);
+    const response = await service.removeProductFromWishlist({ item_id: 9 });
+    // await service.deleteMultiwishlist(25);
     debugger;
 })();

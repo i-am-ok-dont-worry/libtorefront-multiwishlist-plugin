@@ -6,12 +6,11 @@ import qs from 'query-string';
 @injectable()
 export class MultiwishlistDao {
 
-    public getMultiwishlists ({ customerId, pageSize, currentPage, sortBy, sortDir }, token: string): Promise<Task> {
+    public getMultiwishlists (customerId, withItems: boolean, storeCode, token: string): Promise<Task> {
         const query = {
-            pageSize: pageSize || 50,
-            currentPage: currentPage || 0,
             token,
-            ...(sortBy && { sortBy, sortDir: sortDir || 'asc' })
+            storeCode,
+            withItems
         };
         return this.taskQueue.execute({
             url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + customerId + '?' + qs.stringify(query)),
@@ -24,9 +23,9 @@ export class MultiwishlistDao {
         });
     }
 
-    public getMultiwishlist (wishlistId: string, token: string): Promise<Task> {
+    public getMultiwishlist (wishlistId, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/single/' + wishlistId + '?token=' + token || ''),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/single/' + wishlistId + '?' + qs.stringify({ token, storeCode })),
             payload: {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
@@ -36,9 +35,9 @@ export class MultiwishlistDao {
         });
     }
 
-    public createMultiwishlist (wishlist: Multiwishlist, token: string): Promise<Task> {
+    public createMultiwishlist (wishlist: Multiwishlist, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist' + '?token=' + token),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist' + '?' + qs.stringify({ token, storeCode })),
             payload: {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -49,22 +48,33 @@ export class MultiwishlistDao {
         });
     }
 
-    public updateMultiwishlist (wishlistId: string, wishlist: Multiwishlist, token: string): Promise<Task> {
+    public deleteMultiwishlist (wishlistId: string, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?token=' + token),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?' + qs.stringify({ token, storeCode })),
             payload: {
-                method: 'POST',
+                method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                mode: 'cors',
-                body: JSON.stringify(wishlist)
+                mode: 'cors'
             },
             silent: true
         });
     }
 
-    public deleteMultiwishlist (wishlistId: string, token: string): Promise<Task> {
+    public addProductToWishlist (wishlistId: string, productId: string|number, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?token=' + token),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '/add/' + productId + '?' + qs.stringify({ token, storeCode })),
+            payload: {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors'
+            },
+            silent: true
+        });
+    }
+
+    public removeProductFromWishlist (itemId: string, storeCode: string, token: string): Promise<Task> {
+        return this.taskQueue.execute({
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/remove/' + itemId + '?' + qs.stringify({ token, storeCode })),
             payload: {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
