@@ -9,17 +9,18 @@ const LSF = new LibStorefront({
     plugins: [
         MultiwishlistPlugin
     ]
-}, 'http://localhost:9001');
+}, 'https://api.meringer.staging.grupakmk.pl');
+// }, 'http://localhost:9001');
 
 (async () => {
     const service = LSF.get(MultiwishlistService);
     const res = await LSF.UserService.login('test@grupakmk.pl', 'Testowe2!');
     const wishlist = {
-        name: 'nowa',
-        type: 0
+        name: 'nowanowanowadshfjdshfjhdfjd',
     };
     // const wishlists = await service.getSingleMultiwishlist(6, true);
-    const response = await service.removeProductFromWishlist({ item_id: 9 });
+    // const response = await service.removeProductFromWishlist({ item_id: 9 });
+    const newWishlist = await service.createMultiwishlist(wishlist);
     // await service.deleteMultiwishlist(25);
     debugger;
 })();

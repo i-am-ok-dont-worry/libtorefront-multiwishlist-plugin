@@ -8,7 +8,7 @@ export interface Multiwishlist {
     updated_at?: string,
     name: string,
     type?: number,
-    items: MultiwishlistItem[]
+    items?: MultiwishlistItem[]
 }
 
 export interface MultiwishlistItem extends Product {
