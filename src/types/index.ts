@@ -6,7 +6,7 @@ export interface Multiwishlist {
     shared?: number,
     sharing_code?: number,
     updated_at?: string,
-    name: string,
+    name?: string,
     type?: number,
     items?: MultiwishlistItem[]
 }
