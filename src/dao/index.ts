@@ -8,12 +8,11 @@ export class MultiwishlistDao {
 
     public getMultiwishlists (customerId, withItems: boolean, storeCode, token: string): Promise<Task> {
         const query = {
-            token: '{{token}}',
             storeCode,
             withItems
         };
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + customerId + '?' + qs.stringify(query)),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + customerId + '?' + qs.stringify(query)) + '&token={{token}}',
             payload: {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
@@ -25,7 +24,7 @@ export class MultiwishlistDao {
 
     public getMultiwishlist (wishlistId, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/single/' + wishlistId + '?' + qs.stringify({ token: '{{token}}', storeCode })),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/single/' + wishlistId + '?' + qs.stringify({ storeCode }) + '&token={{token}}'),
             payload: {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
@@ -37,7 +36,7 @@ export class MultiwishlistDao {
 
     public createMultiwishlist (wishlist: Multiwishlist, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist' + '?' + qs.stringify({ token: '{{token}}', storeCode })),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist' + '?' + qs.stringify({ storeCode }) + + '&token={{token}}'),
             payload: {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -50,7 +49,7 @@ export class MultiwishlistDao {
 
     public deleteMultiwishlist (wishlistId: string, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?' + qs.stringify({ token: '{{token}}', storeCode })),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?' + qs.stringify({ storeCode }) + + '&token={{token}}'),
             payload: {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
@@ -62,7 +61,7 @@ export class MultiwishlistDao {
 
     public addProductToWishlist (wishlistId: string, productId: string|number, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '/add/' + productId + '?' + qs.stringify({ token: '{{token}}', storeCode })),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '/add/' + productId + '?' + qs.stringify({ storeCode }) + '&token={{token}}'),
             payload: {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -74,7 +73,7 @@ export class MultiwishlistDao {
 
     public removeProductFromWishlist (itemId: string, storeCode: string, token: string): Promise<Task> {
         return this.taskQueue.execute({
-            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/remove/' + itemId + '?' + qs.stringify({ token: '{{token}}', storeCode })),
+            url: URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/remove/' + itemId + '?' + qs.stringify({ storeCode }) + '&token={{token}}'),
             payload: {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },

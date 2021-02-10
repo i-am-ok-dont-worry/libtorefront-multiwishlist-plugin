@@ -165,12 +165,11 @@ var MultiwishlistDao = /** @class */ (function () {
     }
     MultiwishlistDao.prototype.getMultiwishlists = function (customerId, withItems, storeCode, token) {
         var query = {
-            token: '{{token}}',
             storeCode: storeCode,
             withItems: withItems
         };
         return this.taskQueue.execute({
-            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + customerId + '?' + query_string_1.default.stringify(query)),
+            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + customerId + '?' + query_string_1.default.stringify(query)) + '&token={{token}}',
             payload: {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
@@ -181,7 +180,7 @@ var MultiwishlistDao = /** @class */ (function () {
     };
     MultiwishlistDao.prototype.getMultiwishlist = function (wishlistId, storeCode, token) {
         return this.taskQueue.execute({
-            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/single/' + wishlistId + '?' + query_string_1.default.stringify({ token: '{{token}}', storeCode: storeCode })),
+            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/single/' + wishlistId + '?' + query_string_1.default.stringify({ storeCode: storeCode }) + '&token={{token}}'),
             payload: {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
@@ -192,7 +191,7 @@ var MultiwishlistDao = /** @class */ (function () {
     };
     MultiwishlistDao.prototype.createMultiwishlist = function (wishlist, storeCode, token) {
         return this.taskQueue.execute({
-            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist' + '?' + query_string_1.default.stringify({ token: '{{token}}', storeCode: storeCode })),
+            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist' + '?' + query_string_1.default.stringify({ storeCode: storeCode }) + +'&token={{token}}'),
             payload: {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -204,7 +203,7 @@ var MultiwishlistDao = /** @class */ (function () {
     };
     MultiwishlistDao.prototype.deleteMultiwishlist = function (wishlistId, storeCode, token) {
         return this.taskQueue.execute({
-            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?' + query_string_1.default.stringify({ token: '{{token}}', storeCode: storeCode })),
+            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '?' + query_string_1.default.stringify({ storeCode: storeCode }) + +'&token={{token}}'),
             payload: {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
@@ -215,7 +214,7 @@ var MultiwishlistDao = /** @class */ (function () {
     };
     MultiwishlistDao.prototype.addProductToWishlist = function (wishlistId, productId, storeCode, token) {
         return this.taskQueue.execute({
-            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '/add/' + productId + '?' + query_string_1.default.stringify({ token: '{{token}}', storeCode: storeCode })),
+            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/' + wishlistId + '/add/' + productId + '?' + query_string_1.default.stringify({ storeCode: storeCode }) + '&token={{token}}'),
             payload: {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -226,7 +225,7 @@ var MultiwishlistDao = /** @class */ (function () {
     };
     MultiwishlistDao.prototype.removeProductFromWishlist = function (itemId, storeCode, token) {
         return this.taskQueue.execute({
-            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/remove/' + itemId + '?' + query_string_1.default.stringify({ token: '{{token}}', storeCode: storeCode })),
+            url: libstorefront_1.URLTransform.getAbsoluteApiUrl('/api/vendor/multiwishlist/remove/' + itemId + '?' + query_string_1.default.stringify({ storeCode: storeCode }) + '&token={{token}}'),
             payload: {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },

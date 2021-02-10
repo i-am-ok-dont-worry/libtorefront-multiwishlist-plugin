@@ -1,5 +1,5 @@
 {
-  "name": "libstorefront-multiwishlist-plugin",
+  "name": "@grupakmk/libstorefront-multiwishlist-plugin",
   "version": "1.0.1",
   "description": "Plugin for multiwishlist",
   "main": "dist/index.js",
