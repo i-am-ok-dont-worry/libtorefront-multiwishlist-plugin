@@ -24,7 +24,7 @@
   },
   "homepage": "https://gitlab.com/mateuspytel/libstorefront-plugin-template#readme",
   "dependencies": {
-    "@grupakmk/libstorefront": "^1.0.4"
+    "@grupakmk/libstorefront": "^1.0.6"
   },
   "devDependencies": {
     "babel-loader": "^8.2.2",
@@ -38,5 +38,8 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.2"
+  },
+  "publishConfig": {
+    "@grupakmk:registry": "https://npm.grupakmk.pl/"
   }
 }
