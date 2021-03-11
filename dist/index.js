@@ -491,7 +491,7 @@ var multiwishlistReducer = function (state, action) {
             if (!wishlist_1.items) {
                 wishlist_1.items = [];
             }
-            wishlist_1.items = uniqBy_1.default(__spreadArrays(wishlist_1.items, [__assign(__assign({}, product), { product_id: product.id })]), 'product_id');
+            wishlist_1.items = uniqBy_1.default(__spreadArrays(wishlist_1.items, [__assign(__assign({}, product), { product_id: String(product.id) })]), 'product_id');
             return __assign(__assign({}, state), { current: (state.current && wishlist_1.wishlist_id === state.current.wishlist_id) ? wishlist_1 : state.current, items: state.items.map(function (w) { return w.wishlist_id === wishlist_1.wishlist_id ? wishlist_1 : w; }) });
         }
         case multiwishlist_actions_1.MultiwishlistActions.REMOVE_PRODUCT: {

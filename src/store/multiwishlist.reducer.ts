@@ -25,7 +25,7 @@ export const multiwishlistReducer: Reducer<MultiwishlistModuleState, AnyAction> 
         case MultiwishlistActions.ADD_PRODUCT: {
             const { product, wishlist } = action.payload;
             if (!wishlist.items) { wishlist.items = []; }
-            wishlist.items = uniqBy([...wishlist.items, { ...product, product_id: product.id }], 'product_id');
+            wishlist.items = uniqBy([...wishlist.items, { ...product, product_id: String(product.id) }], 'product_id');
 
             return {
                 ...state,
