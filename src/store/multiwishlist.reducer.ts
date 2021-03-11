@@ -2,6 +2,7 @@ import { Reducer } from '@grupakmk/libstorefront/dist/src/state-management/types
 import { MultiwishlistDefaultState, MultiwishlistModuleState } from './multiwishlist.default';
 import { AnyAction } from '@grupakmk/libstorefront/dist/src/state-management/types/action';
 import { MultiwishlistActions } from './multiwishlist.actions';
+import uniqBy from 'lodash/uniqBy';
 
 export const multiwishlistReducer: Reducer<MultiwishlistModuleState, AnyAction> = (state: MultiwishlistModuleState, action) => {
     switch (action.type) {
@@ -24,7 +25,7 @@ export const multiwishlistReducer: Reducer<MultiwishlistModuleState, AnyAction> 
         case MultiwishlistActions.ADD_PRODUCT: {
             const { product, wishlist } = action.payload;
             if (!wishlist.items) { wishlist.items = []; }
-            wishlist.items.push({ ...product, product_id: product.id });
+            wishlist.items = uniqBy([...wishlist.items, { ...product, product_id: product.id }], 'product_id');
 
             return {
                 ...state,

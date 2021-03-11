@@ -454,10 +454,21 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.multiwishlistReducer = void 0;
 var multiwishlist_default_1 = __webpack_require__(/*! ./multiwishlist.default */ "./src/store/multiwishlist.default.ts");
 var multiwishlist_actions_1 = __webpack_require__(/*! ./multiwishlist.actions */ "./src/store/multiwishlist.actions.ts");
+var uniqBy_1 = __importDefault(__webpack_require__(/*! lodash/uniqBy */ "lodash/uniqBy"));
 var multiwishlistReducer = function (state, action) {
     switch (action.type) {
         case multiwishlist_actions_1.MultiwishlistActions.SET_MULTIWISHLIST: {
@@ -480,7 +491,7 @@ var multiwishlistReducer = function (state, action) {
             if (!wishlist_1.items) {
                 wishlist_1.items = [];
             }
-            wishlist_1.items.push(__assign(__assign({}, product), { product_id: product.id }));
+            wishlist_1.items = uniqBy_1.default(__spreadArrays(wishlist_1.items, [__assign(__assign({}, product), { product_id: product.id })]), 'product_id');
             return __assign(__assign({}, state), { current: (state.current && wishlist_1.wishlist_id === state.current.wishlist_id) ? wishlist_1 : state.current, items: state.items.map(function (w) { return w.wishlist_id === wishlist_1.wishlist_id ? wishlist_1 : w; }) });
         }
         case multiwishlist_actions_1.MultiwishlistActions.REMOVE_PRODUCT: {
@@ -794,6 +805,17 @@ module.exports = require("@grupakmk/libstorefront");
 /***/ (function(module, exports) {
 
 module.exports = require("inversify");
+
+/***/ }),
+
+/***/ "lodash/uniqBy":
+/*!********************************!*\
+  !*** external "lodash/uniqBy" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash/uniqBy");
 
 /***/ }),
 
