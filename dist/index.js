@@ -483,7 +483,7 @@ var multiwishlistReducer = function (state, action) {
                 var wishlist_id = _a.wishlist_id;
                 return wishlist_id !== action.payload;
             });
-            var isCurrent = state.current.wishlist_id === action.payload;
+            var isCurrent = state.current ? state.current.wishlist_id === action.payload : false;
             return __assign(__assign({}, state), { items: lists, current: isCurrent ? null : state.current });
         }
         case multiwishlist_actions_1.MultiwishlistActions.ADD_PRODUCT: {
@@ -672,7 +672,7 @@ var MultiwishlistThunks;
         }); };
     };
     MultiwishlistThunks.deleteWishlist = function (wishlistId) { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
-        var userState, storeCode, result, e_3;
+        var userState, storeCode, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -684,7 +684,7 @@ var MultiwishlistThunks;
                     storeCode = libstorefront_1.StoreViewHandler.currentStoreView().general.store_code;
                     return [4 /*yield*/, libstorefront_1.IOCContainer.get(dao_1.MultiwishlistDao).deleteMultiwishlist(wishlistId, storeCode, userState.token)];
                 case 1:
-                    result = _a.sent();
+                    _a.sent();
                     return [4 /*yield*/, dispatch(multiwishlist_actions_1.MultiwishlistActions.deleteMultiwishlist(wishlistId))];
                 case 2:
                     _a.sent();
