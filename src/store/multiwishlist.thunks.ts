@@ -67,7 +67,7 @@ export namespace MultiwishlistThunks {
           if (!wishlistId) { throw new Error('Wishlist id is undefined'); }
           const userState = IOCContainer.get(AbstractStore).getState().user;
           const storeCode = StoreViewHandler.currentStoreView().general.store_code;
-          const result = await IOCContainer.get(MultiwishlistDao).deleteMultiwishlist(wishlistId, storeCode, userState.token);
+          await IOCContainer.get(MultiwishlistDao).deleteMultiwishlist(wishlistId, storeCode, userState.token);
           await dispatch(MultiwishlistActions.deleteMultiwishlist(wishlistId));
       } catch (e) {
           Logger.error('Unable to delete wishlist', 'multiwishlist', e.message);

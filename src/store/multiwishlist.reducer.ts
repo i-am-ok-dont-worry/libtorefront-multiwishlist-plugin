@@ -15,7 +15,7 @@ export const multiwishlistReducer: Reducer<MultiwishlistModuleState, AnyAction> 
         }
         case MultiwishlistActions.DELETE_MULTIWISHLIST: {
             const lists = state.items.filter(({ wishlist_id }) => wishlist_id !== action.payload);
-            const isCurrent = state.current.wishlist_id === action.payload;
+            const isCurrent = state.current && state.current.wishlist_id === action.payload;
             return {
                 ...state,
                 items: lists,
